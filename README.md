@@ -1,21 +1,24 @@
 # Creating an ASP.NET Core MVC App in a Docker Image and run it on Azure
 
 ## Introduction
-This repo contains instructions for how to create a new ASP.NET Core MVC Application, add it to a a Docker Image, deploy that container to Azure and start a container using the image. The assumption is that you're performing this tutorial in a Windows 10 environment.
+This repo contains instructions for how to create a new ASP.NET Core MVC Application, add it to a Docker Image, deploy that container to Azure and start a container using the image. The assumption is that you're performing this tutorial in a Windows 10 environment. You can/will incure Azure costs in doing this, be aware, and control your spend. Clean up after you're done.
+
+If you have any feedback on this tutorial, feel free to create an issue for discussion, or submit a PR for any fixes/enhancements.
 
 ## Pre-requisites:
 In order to successfully complete this tutorial you'll want to have some tools installed.
 
-* VS Code Installed (https://code.visualstudio.com/download)
-* Azure CLI Installed (https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
-* .Net Core CLI SDK Installed (https://dotnet.microsoft.com/download/dotnet-core/3.1)
+* VS Code (https://code.visualstudio.com/download)
+* Azure CLI (https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+* .Net Core CLI SDK  (https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * C# Extension in VS Code (https://github.com/OmniSharp/omnisharp-vscode)
 * Azure Account (https://portal.azure.com)
-* Docker for Windows installed (https://docs.docker.com/docker-for-windows/)
-* For this sample I did this with Linux Containers, not Windows Containers as I ran into a problem trying to deploy a container created with Windows 10 into Azure.
+* Docker for Windows (https://docs.docker.com/docker-for-windows/)
+* For this sample I did this with Linux Containers, not Windows Containers, as I ran into a problem trying to deploy a container created with Windows 10 into Azure.
 
-Open up *VS Code* in your Windows Environment.
-Create a new FILE in VS Code and copy/paste the contents of this README.md there so you can follow along (search and replace text will make this much easier on you) 
+**Open up VS Code in your Windows Environment.**
+
+**Create a new FILE in VS Code and copy/paste the contents of this README.md there so you can follow along (search and replace text will make this much easier on you)**
 
 ## Variables to Replace
 Below you will find a List of variables to replace with your names/values. To make this easier, you might simply want to search/replace these right here right now. Choose a <variable>, press Control+H type in your replacement value and click replace all.
@@ -29,15 +32,17 @@ Below you will find a List of variables to replace with your names/values. To ma
 
 
 
-Open Terminal in VS Code (Press Control+`)
-Navigate to your project location (your choice of where)
+**Open Terminal in VS Code (Press Control+`)**
+
+**Navigate to your project location (your choice of where)**
 
 `cd f:\projects\`
 
-Create new directory
+**Create new directory**
+
 `mkdir demo`
 
-Change to that directory
+**Change to that directory**
 
 `cd demo`
 
