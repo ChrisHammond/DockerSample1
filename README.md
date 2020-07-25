@@ -65,24 +65,24 @@ Create docker file
  
 Open DockerFile in VS Code, add the following to the contents, you may need to remove the tab indention.
 
-`
-    FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
-    WORKDIR /app
+```FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+WORKDIR /app
 
-    # Copy csproj and restore as distinct layers
-    COPY *.csproj ./
-    RUN dotnet restore
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-    # Copy everything else and build
-    COPY . ./
-    RUN dotnet publish -c Release -o out
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-    # Build runtime image
-    FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
-    WORKDIR /app
-    COPY --from=build-env /app/out .
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+WORKDIR /app
+COPY --from=build-env /app/out .
 
-    ENTRYPOINT ["dotnet", "<Mvc_Name>.dll"]`
+ENTRYPOINT ["dotnet", "<Mvc_Name>.dll"]
+```
 
 
 Build the docker image 
@@ -149,6 +149,7 @@ Retrieve the password registry password for the admin account, copy and replace 
 
 
 Deploy the container
+
 `az container create --resource-group <demo_group_name> --name <image_name> --image <login_server_name>/<image_name>:v1 --cpu 1 --memory 1 --registry-login-server <login_server_name> --registry-username <acr_name_here> --registry-password <registry_password> --dns-name-label <dns_name_for_sample_site> --ports 80`
 
 Browse to the new site
