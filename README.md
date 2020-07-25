@@ -36,33 +36,47 @@ Below you will find a List of variables to replace with your names/values. To ma
 
 **Navigate to your project location (your choice of where)**
 
-`cd f:\projects\`
+```console
+cd f:\projects\
+```
 
 **Create new directory**
 
-`mkdir demo`
+```console
+mkdir demo
+```
 
 **Change to that directory**
 
-`cd demo`
+```console
+cd demo
+````
 
 **Create a new .Net Core MVC web app called <Mvc_Name>, for giggles we will put it into a folder called App**
 
-`dotnet new mvc -o App -n <Mvc_Name>`
+```console
+dotnet new mvc -o App -n <Mvc_Name>
+```
 
 **Navigate to the App folder**
 
-`cd app`
+```console
+cd app
+```
 
 **Run the new MVC app**
 
-`dotnet run`
+```console
+dotnet run
+```
 
 **Browse to https://localhost:5001**
 
 **Create DockerFile manifest** 
 
-`New-Item DockerFile -ItemType file`
+```console
+New-Item DockerFile -ItemType file
+```
  
 **Open DockerFile in VS Code, add the following to the contents.**
 
@@ -88,76 +102,114 @@ ENTRYPOINT ["dotnet", "<Mvc_Name>.dll"]
 
 **Build the docker image**
 
-`docker build -t <image_name> -f DockerFile .`
+```console
+docker build -t <image_name> -f DockerFile .
+```
 
 **Run the app in a container**
 
-`docker run -d -p 8080:80 --name <docker_container_name> <image_name>`
+```console
+docker run -d -p 8080:80 --name <docker_container_name> <image_name>
+```
 
 **Browse to: http://localhost:8080/**
 
-
 **Create a resource group in Azure, this will be created in the eastus location, if you change eastus to another location you'll need to change it in the URL towards the end of this file as well.**
 
-`az group create --name <demo_group_name> --location eastus`
+```console
+az group create --name <demo_group_name> --location eastus
+```
 
 **Create an Azure Container Registrty where we will load the image**
 
-`az acr create --resource-group <demo_group_name> --name <acr_name_here> --sku Basic`
+```console
+az acr create --resource-group <demo_group_name> --name <acr_name_here> --sku Basic
+```
 
 **Login to the acr**
 
-`az acr login --name <acr_name_here>`
+```console
+az acr login --name <acr_name_here>
+```
 
 **Get the login server name so we can tag the image properly**
 
-`az acr show --name <acr_name_here> --query loginServer --output table`
+```console
+az acr show --name <acr_name_here> --query loginServer --output table
+```
 
 **Copy the result from the above command. Replace all references to <login_server_name> with that value.**
 
 **Display a list of your local images**
 
-`docker images`
+```console
+docker images
+```
 
 **Tag the image we created above, it should be tagged with <login_server_name>/<image_name>**
 
-`docker tag <image_name> <login_server_name>/<image_name>:v1`
+```console
+docker tag <image_name> <login_server_name>/<image_name>:v1
+```
 
 **Display local Docker images again**
 
-`docker images`
+```console
+docker images
+```
 
 **Push the Docker image to azure**
 
-`docker push <login_server_name>/<image_name>:v1`
+```console
+docker push <login_server_name>/<image_name>:v1
+```
+
 
 **Retrieve the list from registry**
 
-`az acr repository list --name <acr_name_here> --output table`
+```console
+az acr repository list --name <acr_name_here> --output table
+```
 
 **Enable the admin account within the Registry**
 
-`az acr update -n <acr_name_here> --admin-enabled true`
+```console
+az acr update -n <acr_name_here> --admin-enabled true
+```
 
 **Login to the Registry with the Admin account**
 
-`az acr credential show -n <acr_name_here> --query passwords[0].value --output tsv | docker login <acr_name_here>.azurecr.io -u <acr_name_here> --password-stdin`
+```console
+az acr credential show -n <acr_name_here> --query passwords[0].value --output tsv | docker login <acr_name_here>.azurecr.io -u <acr_name_here> --password-stdin
+```
 
 **Retrieve the password registry password for the admin account, copy and replace the string <registry_password> with the results of the command below**
 
-`az acr credential show -n <acr_name_here> --query passwords[0].value --output tsv`
+```console
+az acr credential show -n <acr_name_here> --query passwords[0].value --output tsv
+```
 
 
 **Deploy the container**
 
-`az container create --resource-group <demo_group_name> --name <image_name> --image <login_server_name>/<image_name>:v1 --cpu 1 --memory 1 --registry-login-server <login_server_name> --registry-username <acr_name_here> --registry-password <registry_password> --dns-name-label <dns_name_for_sample_site> --ports 80`
+```console
+az container create --resource-group <demo_group_name> --name <image_name> --image <login_server_name>/<image_name>:v1 --cpu 1 --memory 1 --registry-login-server <login_server_name> --registry-username <acr_name_here> --registry-password <registry_password> --dns-name-label <dns_name_for_sample_site> --ports 80
+```
 
 **Browse to the new site**
 
-`http://<dns_name_for_sample_site>.eastus.azurecontainer.io`
+```console
+http://<dns_name_for_sample_site>.eastus.azurecontainer.io
+```
 
 **When you're done, you can purge all this work from Azure by deleting the resource group. BE SURE YOU DON'T HAVE RESOURCES IN THERE YOU WANT TO SAVE**
 
-`az group delete --name <demo_group_name>`
+```console
+az group delete --name <demo_group_name>
+```
 
 
+
+
+
+Tutorial customized and tweaked, originally based off of [Deploy ASP.NET Core Applications to Azure Container Instances](https://github.com/dotnet/dotnet-docker/blob/master/samples/deploy-container-to-aci.md)
